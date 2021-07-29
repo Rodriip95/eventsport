@@ -1,0 +1,19 @@
+@import "../../variables/constants.scss";
+
+.card{
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+.fondo-opa{
+    background-color: rgba(0, 0, 0, 0.171);
+    transition-delay: 50ms;
+    transition-duration: 200ms;
+    transition-timing-function: ease-in;
+    &:hover{
+        background-color: rgba(255, 255, 255, 0.075);
+        transition-delay: 50ms;
+        transition-duration: 200ms;
+        transition-timing-function: ease-out;
+    }
+}

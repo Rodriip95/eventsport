@@ -1,0 +1,10 @@
+@import "../../variables/constants.scss";
+
+.btn-hero{
+    background-color: $vivos;
+    border-color: $vivos;
+    &:hover{
+        background-color: $vivos_hover;
+        border-color: $vivos_hover;
+    }
+}

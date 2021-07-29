@@ -1,0 +1,20 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
+*{
+    margin: 0;
+    padding: 0;
+}
+html{
+    scroll-behavior: smooth;
+}
+body{
+    overflow-x: hidden;
+}
+
+$no_work: 'Bebas Neue', cursive;
+$fuente_principal: 'Anton', sans-serif;
+$fuente_secundaria: 'Noto Sans KR', sans-serif;
+
+$vivos: #f97c06;
+$vivos_hover: #f17b0c;

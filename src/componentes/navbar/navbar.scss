@@ -1,0 +1,33 @@
+@import "../../variables/constants.scss";
+
+.logo{
+    font-family: $fuente_principal;
+    font-size: 2rem;
+    p{
+        padding: 0;
+        margin: 0;
+    }
+    .event{
+        color: $vivos;
+        position: relative;
+        bottom: -10px;
+    }
+}
+
+.nav-link{
+    font-family: $fuente_secundaria;
+    font-size: 1rem;
+    color: #222831 !important;
+    border-bottom: 2px solid #fff;
+    transition-delay: 10ms;
+    transition-duration: 400ms;
+    transition-timing-function: ease-in;
+    padding-bottom: 5px;
+    &:hover{
+        border-bottom: 2px solid $vivos;
+        color: $vivos !important;
+        transition-delay: 10ms;
+        transition-duration: 100ms;
+        transition-timing-function: ease-in;
+    }
+}
