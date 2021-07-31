@@ -1,0 +1,50 @@
+@import "../../variables/constants.scss";
+
+#admin{
+    position: relative;
+}
+#fondo{
+    background-image: url("fondo.jpg");
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    z-index: -1;
+    filter: grayscale(1);
+}
+
+.form-signin{
+    background-color: rgba(255, 255, 255, 0.459);
+}
+
+.logo{
+    font-family: $fuente_principal;
+    font-size: 2.5rem;
+    text-decoration: none;
+    color: #000;
+    background-color: #fff;
+    width: 120px;
+    height: 120px;
+    border-radius: 100%;
+    overflow: hidden;
+    p{
+        padding: 0;
+        margin: 0;
+    }
+}
+.event2{
+    color: $vivos;
+    position: relative;
+    top: -10px;
+}
+.event3{
+    position: relative;
+    bottom: -10px;
+}
+
+.btnlogin{
+    font-family: $fuente_secundaria;
+    font-weight: 400;
+}

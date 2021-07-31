@@ -6,8 +6,8 @@ export default function Navbar(){
         <nav class="navbar navbar-expand-lg navbar-light">
             <div class="container">
                 <a class="navbar-brand logo" href="#">
-                    <p class="event">EVENT</p>
-                    <p>SPORT</p>
+                    <p>EVENT</p>
+                    <p class="event">SPORT</p>
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>

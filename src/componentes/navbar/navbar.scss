@@ -1,8 +1,12 @@
 @import "../../variables/constants.scss";
-
+.navbar{
+    border-bottom: 3px solid rgba(241, 160, 9, 0.726);
+    padding-bottom: 0;
+    margin-bottom: .5rem;
+}
 .logo{
     font-family: $fuente_principal;
-    font-size: 2rem;
+    font-size: 2.5rem;
     p{
         padding: 0;
         margin: 0;
@@ -10,7 +14,7 @@
     .event{
         color: $vivos;
         position: relative;
-        bottom: -10px;
+        bottom: 20px;
     }
 }
 
