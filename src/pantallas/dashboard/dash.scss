@@ -1,0 +1,34 @@
+@import "../../variables/constants.scss";
+
+#side{
+    width: 280px;
+    min-height: 100vh;
+    overflow-y: hidden;
+}
+
+svg{
+    color: #fff;
+}
+
+.logodash{
+    border-bottom: 1px solid #ccc;
+}
+
+.dashoption{
+    border: 1px solid rgb(42, 42, 42);
+    cursor: default;
+    span{
+        color: #fff;
+    }
+}
+.dashoption-active{
+    cursor: default;
+    border: 1px solid #ddd;
+    background-color: #ddd;
+    svg{
+        color: #212529;
+    }
+    span{
+        color: #212529;
+    }
+}

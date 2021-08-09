@@ -1,18 +1,19 @@
-import firebase from "firebase/app";
+import firebase from 'firebase/app';
+import 'firebase/firestore';
 
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-    apiKey: process.env.APIKEY,
-    authDomain: process.env.AUTH,
-    projectId: process.env.PROJECT,
-    storageBucket: process.env.STORAGE,
-    messagingSenderId: process.env.MESSAGING,
-    appId: process.env.APPID,
-    measurementId: process.env.MEASURE
-  };
-
-const initialFirebase = () => firebase.initializeApp(firebaseConfig);
-
-export {
-    initialFirebase
+const config = {
+  apiKey: process.env.REACT_APP_FS_APIKEY,
+  authDomain: process.env.REACT_APP_FS_AUTH,
+  databaseURL: process.env.REACT_APP_FS_DATABASE,
+  projectId: process.env.REACT_APP_FS_PROJECT,
+  storageBucket: process.env.REACT_APP_FS_STORAGE,
+  messagingSenderId: process.env.REACT_APP_FS_MESSAGING,
+  appId: process.env.REACT_APP_FS_APPID,
+  measurementId: process.env.REACT_APP_FS_MEASURE
 }
+
+firebase.initializeApp(config)
+
+// export const startFirebase = () => firebase.initializeApp(config)
+
+export const db = firebase.firestore()

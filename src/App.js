@@ -12,14 +12,14 @@ import Navbar from './componentes/navbar';
 import NoMatch from './pantallas/error/error';
 import Footer from './componentes/footer';
 import Login from './pantallas/login';
-import Dashboard from './pantallas/dashboard';
+import DashboardMenu from './pantallas/dashboard.jsx';
 
 export default function App (){
   return(
     <Router>
         <Switch>
             <Route exact path="/admin/dashboard">
-              <Dashboard />
+              <DashboardMenu />
             </Route>
 
             <Route exact path="/admin">

@@ -1,9 +1,10 @@
 import React from 'react'
 import "./album.scss"
-export default function ItemAlbum(){
+
+export default function ItemAlbum( {noti} ){
 
     let styleAlbum = {
-      backgroundImage: "url('https://images.unsplash.com/photo-1615204318936-5fb910ff2de3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80')",      
+      backgroundImage: `url('${noti.image}')`     
     }
     return(
         <div class="col">
@@ -13,10 +14,9 @@ export default function ItemAlbum(){
               </div>
 
               <div class="card-body">
+                <h5 class="card-title">{noti.titulo}</h5>
                 <p class="card-text">
-                  This is a wider card with supporting text below as a natural
-                  lead-in to additional content. This content is a little bit
-                  longer.
+                  {noti.description}
                 </p>
                 <div class="d-flex justify-content-between align-items-center">
                   <div class="btn-group">
@@ -27,7 +27,7 @@ export default function ItemAlbum(){
                       Ver Post
                     </button>
                   </div>
-                  <small class="text-muted">9 mins</small>
+                  <small class="text-muted">{noti.fecha}</small>
                 </div>
               </div>
             </div>

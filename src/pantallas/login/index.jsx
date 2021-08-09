@@ -1,4 +1,5 @@
 import React from 'react'
+import { useHistory, useLocation } from 'react-router-dom'
 import './login.scss'
 export default function Login(){
     
@@ -11,16 +12,20 @@ export default function Login(){
 }
 
 function FormLogin(){
+
+    const navigation = useHistory()
+
     const handlerLogin = (e) =>{
-        e.preventDefault() 
-        console.log("Hola Login")
+        e.preventDefault()
+        
+        navigation.push("/admin/dashboard")
     }
     return(
         <div class="row d-flex justify-content-center text-center align-items-center h-100">
-            <main class="form-signin col-12 col-md-8 col-lg-6 col-xl-4 rounded-3">
+            <main class="form-signin col-11 col-md-8 col-lg-6 col-xl-4 rounded-3">
                 <form onSubmit={handlerLogin} class="pt-4">
                     <div class="d-flex justify-content-center">
-                        <div class="logo">
+                        <div class="logoLog">
                             <p class="event3">EVENT</p>
                             <p class="event2">SPORT</p>
                         </div>
