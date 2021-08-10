@@ -15,7 +15,8 @@ export default function DashHome({activo}){
 
     return(
         <>
-            <h1>Categorias</h1>
+            <h1 class="px-2">Categorias</h1>
+            <hr class="w-50"/>
             <div className="d-flex justify-content-around">
                 <button onClick={()=> handlerSelect("libres")} className={categoria == "libres" ? classelect : clasnoselect}>Libres</button>
                 <button onClick={()=> handlerSelect("maxi")} className={categoria == "maxi" ? classelect : clasnoselect}>Maxi +35</button>
@@ -223,6 +224,7 @@ function TeamLine({team, categoria, refresh}){
 
     const handlerEditNew = () => {
         var editar = db.collection(categoria).doc(team.id);
+
         editar.update({
             ...team,
             equipo: state.equipo
@@ -236,9 +238,6 @@ function TeamLine({team, categoria, refresh}){
         });
     }
 
-    const handlerEditPlayer =()=>{
-
-    }
     return(
         <>
             <div id={"cont"+team.id} class="border rounded d-flex justify-content-between mx-4 p-2 align-items-center mb-2 position-relative">
@@ -272,31 +271,8 @@ function TeamLine({team, categoria, refresh}){
                 </div>
             </div>
 
-            {/* Players Start */}
-            <div class="modal fade" id={"team"+team.id} tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Jugadores: {`${state.equipo}`}</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-
-                        <ListadoPlayerEdit data={state}/>
-                        
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                        <button 
-                            type="button" 
-                            class="btn btn-primary" 
-                            data-bs-dismiss="modal" onClick={handlerEditPlayer}
-                        >Terminar</button>
-                    </div>
-                    </div>
-                </div>
-            </div>
-            {/* Players Finish */}
+            {/*  */}
+            <ListadoPlayerEdit categoria={categoria} refresh={refresh} data={team}/>
 
             {/* Edit Start */}
             <div class="modal fade" id={team.id} tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -350,31 +326,113 @@ function TeamLine({team, categoria, refresh}){
     )
 }
 
-function ListadoPlayerEdit({data}){
+function ListadoPlayerEdit({data, categoria, refresh}){
     const [arrPlayers, setArr] = useState(data.jugadores)
+    const [aux, setAux] = useState(data.jugadores)
 
+    const [nuevo, setnuevo] = useState({
+        name:"",
+        dni:""
+    })
 
-    const handlerEditListPlayers = ( obj ) =>{
-        let seleccionado = document.getElementById(obj.dni)
-        if(seleccionado.style.textDecoration == "line-through wavy red 4px"){
-            seleccionado.style.textDecoration = "none"
-        } else {
-            seleccionado.style.textDecoration = "line-through wavy red 4px"
-        }
-        
+     const removeArr = ( p ) => {
+         setArr(arrPlayers.filter( v => v.dni != p.dni))
+     }
+
+     const alterArr = ( p ) => {
+         setArr( arrPlayers.concat(p))
+     }
+
+     const handlerAddNewPlayer = () => {
+        setArr( arrPlayers.concat(nuevo))
+        setAux( aux.concat(nuevo))
+
+        setnuevo({
+            name:"",
+            dni:""
+        })
+     }
+
+     const handlerEditPlayer =()=>{
+        console.log(arrPlayers.length)
+        var editar = db.collection(categoria).doc(data.id);
+
+        editar.update({
+            ...data,
+            jugadores: arrPlayers
+        })
+        .then(() => {
+            console.log("Document successfully updated!");
+            refresh()
+        })
+        .catch((error) => {
+            console.error("Error updating document: ", error);
+        });
     }
     return(
         <>
-            {data.jugadores.map( (player, index) => (
-                <div key={index} class="border rounded mb-2 p-2 d-flex justify-content-between">
-                    <p id={player.dni} class="m-0 px-1">{player.name+": "+player.dni}</p>
-                    <button class="btn btn-danger" onClick={()=>handlerEditListPlayers(player)}>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-x-fill" viewBox="0 0 16 16">
-                        <path fill-rule="evenodd" d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm6.146-2.854a.5.5 0 0 1 .708 0L14 6.293l1.146-1.147a.5.5 0 0 1 .708.708L14.707 7l1.147 1.146a.5.5 0 0 1-.708.708L14 7.707l-1.146 1.147a.5.5 0 0 1-.708-.708L13.293 7l-1.147-1.146a.5.5 0 0 1 0-.708z"/>
-                        </svg>
-                    </button>
+            {/* Players Start */}
+            <div class="modal fade" id={"team"+data.id} tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Jugadores: {`${data.equipo}`}</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <span>Agregar nuevo jugador</span>
+                        <div class="d-flex justify-content-between m-1 py-2">
+                            <input value={nuevo.name} onChange={(e)=>setnuevo({...nuevo, name: e.target.value})} class="form-control" placeholder="Nombre del Jugador..."/>
+                            <input value={nuevo.dni} onChange={(e)=>setnuevo({...nuevo, dni: e.target.value})} class="form-control mx-1" placeholder="DNI..."/>
+                            <button disabled={ (nuevo.name !== "" && nuevo.dni !== "") ? false : true} onClick={handlerAddNewPlayer} class="btn btn-success rounded" style={{fontWeight:'bold'}}>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+                                    <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                                </svg>
+                            </button>
+                        </div>
+                        {aux.map( (player, index) => (
+                            <JugadorList key={index} jugador={player} removeArr={removeArr} alterArr={alterArr}/>
+                        ))}
+                        
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button 
+                            type="button" 
+                            class="btn btn-primary" 
+                            data-bs-dismiss="modal" onClick={handlerEditPlayer}
+                        >Terminar</button>
+                    </div>
+                    </div>
                 </div>
-            ))}
+            </div>
+            {/* Players Finish */}
         </>
+    )
+}
+
+function JugadorList({jugador, alterArr, removeArr}){
+    const [active, setActive] = useState(true)
+    
+    const handlerInactivePlayer = ( obj ) =>{
+        if(active){
+            document.getElementById(jugador.dni).style.textDecoration = "line-through wavy red 4px"
+            setActive(!active)
+            removeArr(obj)
+        } else {
+            document.getElementById(jugador.dni).style.textDecoration = "none"
+            setActive(!active)
+            alterArr(obj)
+        }
+    }
+    return(
+        <div class="border rounded mb-2 p-2 d-flex justify-content-between">
+            <p id={jugador.dni} class="m-0 px-1">{jugador.name+": "+jugador.dni}</p>
+            <button class="btn btn-danger" onClick={()=>handlerInactivePlayer(jugador)}>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-x-fill" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm6.146-2.854a.5.5 0 0 1 .708 0L14 6.293l1.146-1.147a.5.5 0 0 1 .708.708L14.707 7l1.147 1.146a.5.5 0 0 1-.708.708L14 7.707l-1.146 1.147a.5.5 0 0 1-.708-.708L13.293 7l-1.147-1.146a.5.5 0 0 1 0-.708z"/>
+                </svg>
+            </button>
+        </div>
     )
 }

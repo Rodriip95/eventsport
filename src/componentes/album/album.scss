@@ -7,7 +7,9 @@
     background-size: cover;
     background-repeat: no-repeat;
 }
-
+.card{
+    height: 390px;
+}
 .btn-outline-danger{
     &:hover{
         background-color: $vivos;
