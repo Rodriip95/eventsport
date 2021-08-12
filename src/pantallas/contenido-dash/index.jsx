@@ -4,6 +4,7 @@ import firebase from 'firebase'
 import {db} from '../../firebase'
 import DashNews from './dash-componentes/dash-news'
 import DashHome from './dash-componentes/dash-home'
+import DashTable from './dash-componentes/dash-table'
 
 export default function ContenidoDash({activo}){
     return(
@@ -11,6 +12,7 @@ export default function ContenidoDash({activo}){
             <div class="m-4">
                 {activo === "home" && <DashHome activo={activo}/>}
                 {activo === "news" && <DashNews activo={activo}/>}
+                {activo === "table" && <DashTable activo={activo}/>}
             </div>
         </div>
     )
