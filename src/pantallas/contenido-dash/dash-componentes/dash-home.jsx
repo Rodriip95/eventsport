@@ -44,23 +44,38 @@ function DetalleCategoria({categoria}){
         let t = firebase.firestore.Timestamp.fromDate(new Date());
         let d = t.toDate().toLocaleDateString();
 
+        db.collection(`${categoria}_table`).add({
+            name: equipo,
+            PJ: 0,
+            PG: 0, 
+            PP: 0,
+            TT: 0,
+            P: 0   
+        })
+        .then((docRef) => {
+            console.log("New register on table team ID: ", docRef.id);
+        })
+        .catch((error) => {
+            console.error("Error adding document: ", error);
+        });
+
         db.collection(categoria).add({
                 equipo,
                 jugadores: listadoAdd,
                 createAt: d
             })
-            .then((docRef) => {
-                console.log("Document written with ID: ", docRef.id);
-                setEquipo("")
-                setListado([])
-                setCargando(false)
-            })
-            .catch((error) => {
-                console.error("Error adding document: ", error);
-                setEquipo("")
-                setListado([])
-                setCargando(false)
-            });
+        .then((docRef) => {
+            console.log("Document written with ID: ", docRef.id);
+            setEquipo("")
+            setListado([])
+            setCargando(false)
+        })
+        .catch((error) => {
+            console.error("Error adding document: ", error);
+            setEquipo("")
+            setListado([])
+            setCargando(false)
+        });
 
         teamsCollection()
     }
