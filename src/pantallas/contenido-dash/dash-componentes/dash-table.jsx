@@ -63,7 +63,45 @@ function TablaPosiciones({categoria}){
     }
 
     const subirResultado = () => {
+        let ganador = result.puntosA > result.puntosB ? result.equipoA : result.equipoB
+        let perdedor = result.puntosA > result.puntosB ? result.equipoB : result.equipoA
 
+        let ganadorTT = result.puntosA > result.puntosB ? result.puntosA : result.puntosB
+        let perdedorTT = result.puntosA > result.puntosB ? result.puntosB : result.puntosA
+
+        db.collection(`${categoria}_historial`).add(
+            {...result, ganador: ganador, perdedor: perdedor}
+            )
+        .then((docRef) => {
+            console.log("Document written with ID: ", docRef.id);
+            cancelResultado()
+        })
+        .catch((error) => {
+            console.error("Error adding document: ", error);
+            cancelResultado()
+        });
+
+        // To update age and favorite color:
+        db.collection(`${categoria}_table`).doc(ganador).update({
+            P: +2,
+            PG: +1,
+            PJ: +1,
+            TT: +ganadorTT
+        })
+        .then(() => {
+            console.log("Document successfully updated!");
+        });
+
+        db.collection(`${categoria}_table`).doc(perdedor).update({
+            P: +1,
+            PP: +1,
+            PJ: +1,
+            TT: +perdedorTT
+        })
+        .then(() => {
+            console.log("Document successfully updated!");
+            cancelResultado()
+        });
     }
 
     const cancelResultado = () => {
@@ -168,31 +206,31 @@ function TablaPosiciones({categoria}){
                     <div className="d-flex justify-content-center align-items-center">
                         <div className="w-100">
                             <label for="equipoA">Equipo A:</label>
-                            <select name="equipoA" id="equipoA" onChange={onChangeSelect}>
+                            <select name="equipoA" id="equipoA" value={result.equipoA} onChange={onChangeSelect}>
                                 <option value={null}>Seleccione equipo</option>
                                 {equipos.map( eq => (
                                     <option key={eq.id} value={eq.id}>{eq.name}</option>
                                 ))}
                             </select>
-                            <input name="puntosA" type="number" placeholder="Puntos A..." onChange={onChangeInput}/>
+                            <input name="puntosA" type="number" value={result.puntosA} placeholder="Puntos A..." onChange={onChangeInput}/>
                         </div>
                         <div>
                             <h1>VS.</h1>
                         </div>
                         <div className="w-100">
                             <label for="equipoB">Equipo B:</label>
-                            <select name="equipoB" id="equipoB" onChange={onChangeSelect}>
+                            <select name="equipoB" id="equipoB" value={result.equipoB} onChange={onChangeSelect}>
                                 <option value={null}>Seleccione equipo</option>
                                 {equipos.map( eq => (
                                     <option key={eq.id} value={eq.id}>{eq.name}</option>
                                 ))}
                             </select>
-                            <input name="puntosB" type="number" placeholder="Puntos B..." onChange={onChangeInput}/>
+                            <input name="puntosB" type="number" value={result.puntosB} placeholder="Puntos B..." onChange={onChangeInput}/>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onClick={cancelResultado}>Close</button>
                     <button type="button" class="btn btn-primary" onClick={subirResultado}>Save changes</button>
                 </div>
                 </div>
