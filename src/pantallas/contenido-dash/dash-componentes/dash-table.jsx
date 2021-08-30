@@ -43,11 +43,9 @@ function TablaPosiciones({categoria}){
         perdedor: ""
     })
 
-
     useEffect(()=>{
-        console.log("UE")
         getTable(categoria)
-    },[categoria])
+    },[categoria, equipos])
 
     const getTable = (cat) => {
         let nuevoArr = []
@@ -63,43 +61,76 @@ function TablaPosiciones({categoria}){
     }
 
     const subirResultado = () => {
-        let ganador = result.puntosA > result.puntosB ? result.equipoA : result.equipoB
-        let perdedor = result.puntosA > result.puntosB ? result.equipoB : result.equipoA
+        if(
+            result.equipoA != "" &&
+            result.equipoB != "" &&
+            result.puntosA != 0 &&
+            result.puntosB != 0 
+        ){
+            setLoad(true)
+            let ganador = result.puntosA > result.puntosB ? result.equipoA : result.equipoB
+            let perdedor = result.puntosA > result.puntosB ? result.equipoB : result.equipoA
+            
+            let ganadorTT = result.puntosA > result.puntosB ? result.puntosA : result.puntosB
+            let perdedorTT = result.puntosA > result.puntosB ? result.puntosB : result.puntosA
+            
+            updateTabla( ganador,perdedor, parseInt(ganadorTT), parseInt(perdedorTT))
+            setEquipos([])
+        }
+    }
 
-        let ganadorTT = result.puntosA > result.puntosB ? result.puntosA : result.puntosB
-        let perdedorTT = result.puntosA > result.puntosB ? result.puntosB : result.puntosA
+    const updateTabla = ( ganador, perdedor , ganadorTT , perdedorTT ) =>{
+        let ganadorName, perdedorName = ""
 
+        db.collection(`${categoria}_table`).doc(ganador).get()
+        .then((doc) => doc.exists ? doc.data() : console.log("Equipo no encontrado"))
+        .then( res => {
+            console.log(res)
+            ganadorName = res.name
+            db.collection(`${categoria}_table`).doc(ganador).update({
+                P: res.P + 2,
+                PJ: res.PJ + 1,
+                PG: res.PG + 1 ,
+                PP: res.PP,
+                TT: res.TT + ganadorTT
+            })
+            .then(() => {
+                db.collection(`${categoria}_table`).doc(perdedor).get()
+                .then((doc) => doc.exists ? doc.data() : console.log("Equipo no encontrado"))
+                .then( per => {
+                    console.log(per)
+                    perdedorName = per.name
+                    db.collection(`${categoria}_table`).doc(perdedor).update({
+                        P: per.P + 1,
+                        PJ: per.PJ + 1,
+                        PG: per.PG ,
+                        PP: per.PP + 1,
+                        TT: per.TT + perdedorTT
+                    })
+                })
+                .then(()=> {
+                    tableHistorial(ganadorName, perdedorName)
+                })
+            })
+        })
+        .catch( er => console.log(er.message))
+    }
+
+    const tableHistorial = (ganadorName , perdedorName) => {
         db.collection(`${categoria}_historial`).add(
-            {...result, ganador: ganador, perdedor: perdedor}
+            {...result, 
+                ganador: ganadorName, 
+                perdedor: perdedorName
+            }
             )
         .then((docRef) => {
             console.log("Document written with ID: ", docRef.id);
+            setLoad(false)
             cancelResultado()
         })
         .catch((error) => {
             console.error("Error adding document: ", error);
-            cancelResultado()
-        });
-
-        // To update age and favorite color:
-        db.collection(`${categoria}_table`).doc(ganador).update({
-            P: +2,
-            PG: +1,
-            PJ: +1,
-            TT: +ganadorTT
-        })
-        .then(() => {
-            console.log("Document successfully updated!");
-        });
-
-        db.collection(`${categoria}_table`).doc(perdedor).update({
-            P: +1,
-            PP: +1,
-            PJ: +1,
-            TT: +perdedorTT
-        })
-        .then(() => {
-            console.log("Document successfully updated!");
+            setLoad(false)
             cancelResultado()
         });
     }
@@ -121,7 +152,7 @@ function TablaPosiciones({categoria}){
     }
 
     const onChangeSelect = (e) => {
-        console.log(e.target.name)
+        console.log(e.target.value)
         setResult({...result, [e.target.name]: e.target.value})
     }
 
@@ -204,7 +235,7 @@ function TablaPosiciones({categoria}){
                 </div>
                 <div class="modal-body">
                     <div className="d-flex justify-content-center align-items-center">
-                        <div className="w-100">
+                        <div className="w-100 text-center">
                             <label for="equipoA">Equipo A:</label>
                             <select name="equipoA" id="equipoA" value={result.equipoA} onChange={onChangeSelect}>
                                 <option value={null}>Seleccione equipo</option>
@@ -212,12 +243,14 @@ function TablaPosiciones({categoria}){
                                     <option key={eq.id} value={eq.id}>{eq.name}</option>
                                 ))}
                             </select>
-                            <input name="puntosA" type="number" value={result.puntosA} placeholder="Puntos A..." onChange={onChangeInput}/>
+                            <div className="d-flex justify-content-center">
+                                <input className="form-control mt-2 w-50" name="puntosA" type="number" value={result.puntosA} placeholder="Puntos A..." onChange={onChangeInput}/>
+                            </div>
                         </div>
                         <div>
                             <h1>VS.</h1>
                         </div>
-                        <div className="w-100">
+                        <div className="w-100 text-center">
                             <label for="equipoB">Equipo B:</label>
                             <select name="equipoB" id="equipoB" value={result.equipoB} onChange={onChangeSelect}>
                                 <option value={null}>Seleccione equipo</option>
@@ -225,13 +258,23 @@ function TablaPosiciones({categoria}){
                                     <option key={eq.id} value={eq.id}>{eq.name}</option>
                                 ))}
                             </select>
-                            <input name="puntosB" type="number" value={result.puntosB} placeholder="Puntos B..." onChange={onChangeInput}/>
+                            <div className="d-flex justify-content-center">
+                                <input className="form-control mt-2 w-50" name="puntosB" type="number" value={result.puntosB} placeholder="Puntos B..." onChange={onChangeInput}/>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onClick={cancelResultado}>Close</button>
-                    <button type="button" class="btn btn-primary" onClick={subirResultado}>Save changes</button>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onClick={subirResultado}>
+                        {!load ?
+                        "Subir Resultado"
+                        :
+                        <div class="spinner-border  text-warning" role="status">
+                            <span class="sr-only"></span>
+                        </div>
+                        }
+                    </button>
                 </div>
                 </div>
             </div>
