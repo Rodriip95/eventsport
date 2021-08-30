@@ -32,3 +32,24 @@ svg{
         color: #212529;
     }
 }
+
+@media (max-width: 992px) { 
+    #side{
+        width: 60px;
+    }
+    .logodash{
+        font-size: 18px;
+        .event{
+            bottom: 0;
+        }
+    }
+    .dashoption{
+        width: min-content;
+    }
+    .dashoption-active{
+        width: min-content;
+    }
+    .span-option-dash{
+        display: none;
+    }
+ }
