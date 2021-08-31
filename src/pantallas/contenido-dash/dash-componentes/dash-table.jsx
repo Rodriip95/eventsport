@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import firebase from 'firebase'
 import {db} from '../../../firebase'
+import "../cont-dash.scss"
+
 
 export default function DashTable({activo}){
     const [categoria, setCat] = useState("")
@@ -158,7 +160,7 @@ function TablaPosiciones({categoria}){
 
     return(
         <>
-        <div className="mt-5 border pb-3">
+        <div className="mt-5 border pb-3 rounded">
             <div className="text-center mb-2 d-flex justify-content-between px-4">
                 <h1>{categoria.toUpperCase()}</h1>
                 <button class="btn btn-primary h-50 mt-2" data-bs-toggle="modal" data-bs-target="#addNewGame">
@@ -173,44 +175,44 @@ function TablaPosiciones({categoria}){
                 <>
                     <div className="container">
                         <div className="d-flex justify-content-between bg-dark text-white">
-                            <div className="w-100 border text-center">
+                            <div className="table-name border text-center">
                                 <span>Nombre</span>
                             </div>
-                            <div className="w-100 border text-center">
+                            <div className="table-head border text-center">
                                 <span>PJ</span>
                             </div>
-                            <div className="w-100 border text-center">
+                            <div className="table-head border text-center">
                                 <span>PG</span>
                             </div>
-                            <div className="w-100 border text-center">
+                            <div className="table-head border text-center">
                                 <span>PP</span>
                             </div>
-                            <div className="w-100 border text-center">
+                            <div className="table-head border text-center">
                                 <span>Total</span>
                             </div>
-                            <div className="w-100 border text-center">
+                            <div className="table-head border text-center">
                                 <span>Puntos</span>
                             </div>
                         </div>
                     </div>
                     {equipos.map( e => (
                         <div className="d-flex justify-content-between container">
-                            <div className="w-100 border text-start">
+                            <div className="table-name border text-start">
                                 <span className="mx-2">{e.name}</span>
                             </div>
-                            <div className="w-100 border text-center">
+                            <div className="table-head border text-center">
                                 <span>{e.PJ}</span>
                             </div>
-                            <div className="w-100 border text-center">
+                            <div className="table-head border text-center">
                                 <span>{e.PG}</span>
                             </div>
-                            <div className="w-100 border text-center">
+                            <div className="table-head border text-center">
                                 <span>{e.PP}</span>
                             </div>
-                            <div className="w-100 border text-center">
+                            <div className="table-head border text-center">
                                 <span>{e.TT}</span>
                             </div>
-                            <div className="w-100 border text-center">
+                            <div className="table-head border text-center">
                                 <span>{e.P}</span>
                             </div>
                         </div>

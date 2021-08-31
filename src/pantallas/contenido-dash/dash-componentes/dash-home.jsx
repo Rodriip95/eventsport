@@ -122,10 +122,10 @@ function DetalleCategoria({categoria}){
 
     return(
         <>
-            <div class="m-3 border rounded">
+            <div class="my-3 border rounded">
                 <h3 class="text-center mt-3">{categoria.toUpperCase()}</h3>
                 <hr class="mx-4"/>
-                <div class="d-flex justify-content-between px-4 m-2">
+                <div class="d-flex justify-content-between px-1 px-lg-4 m-lg-2">
                     <div>
                         <h4>Listado de equipos</h4>
                     </div>
@@ -139,7 +139,7 @@ function DetalleCategoria({categoria}){
                     </div>
                 </div>
 
-                <div class="d-flex justify-content-between px-5 mt-4">
+                <div class="d-flex justify-content-between px-1 px-lg-5 mt-4">
                     <p>Equipo</p>
                     <p>N° Jugadores</p>
                     <p>Acciones</p>
@@ -255,17 +255,17 @@ function TeamLine({team, categoria, refresh}){
 
     return(
         <>
-            <div id={"cont"+team.id} class="border rounded d-flex justify-content-between mx-4 p-2 align-items-center mb-2 position-relative">
+            <div id={"cont"+team.id} class="border rounded d-flex justify-content-between mx-1 mx-lg-4 p-2 align-items-center mb-2 position-relative">
                 {dele && <div class="d-flex justify-content-center align-items-center position-absolute top-50 start-50 translate-middle">
                     <span class="spinner-border text-danger" role="status"></span>
                 </div>}
-                <div style={{width:"33%"}}>
+                <div className="w-25">
                     <span>{team.equipo}</span>
                 </div>
-                <div style={{width:"33%"}} class="text-center">
+                <div class="text-center w-25 ">
                     <span>{team.jugadores.length}</span>
                 </div>
-                <div style={{width:"33%"}} class="text-end">
+                <div class="text-end">
                     <button class="btn btn-warning mx-1" data-bs-toggle="modal" data-bs-target={`#team${team.id}`}>
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-people-fill" viewBox="0 0 16 16">
                             <path d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1H7zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>

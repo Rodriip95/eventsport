@@ -1,5 +1,6 @@
 import React from 'react'
 import Home from './pantallas/home'
+import TorneoDetalle from './pantallas/torneoDetalle'
 import "./variables/constants.scss"
 import {
   BrowserRouter as Router,
@@ -18,6 +19,11 @@ export default function App (){
   return(
     <Router>
         <Switch>
+
+            <Route path="/torneo/:categoria" children={<TorneoDetalle/>}>
+              
+            </Route>
+
             <Route exact path="/admin/dashboard">
               <DashboardMenu />
             </Route>

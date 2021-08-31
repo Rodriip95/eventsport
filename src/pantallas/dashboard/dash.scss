@@ -21,6 +21,10 @@ svg{
         color: #fff;
     }
 }
+.dashexit{
+    cursor: pointer;
+    text-decoration: none;
+}
 .dashoption-active{
     cursor: default;
     border: 1px solid #ddd;
@@ -32,6 +36,7 @@ svg{
         color: #212529;
     }
 }
+
 
 @media (max-width: 992px) { 
     #side{

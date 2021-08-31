@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
 import './dash.scss'
 export default function Dashboard({activo, handlerClickOption}){
 
@@ -42,10 +43,12 @@ export default function Dashboard({activo, handlerClickOption}){
           </div>
         </div>
         <div>
-          <div class="dashexit d-flex my-2 align-items-end p-2">
-            <ExitIcon/>
-            <span class="px-4 span-option-dash" style={{color:"#fff"}}>Salir</span>
-          </div>
+            <Link to="/admin" className="dashexit">
+              <div class="d-flex my-2 align-items-end p-2">
+                  <ExitIcon/>
+                  <span class="px-4 span-option-dash" style={{color:"#fff"}}>Salir</span>
+              </div>
+            </Link>
         </div>
       </div>
   )

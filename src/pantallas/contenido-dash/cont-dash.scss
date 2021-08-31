@@ -1,1 +1,21 @@
 @import "../../variables/constants.scss";
+
+.action-btn{
+    height: min-content;
+    width: min-content;
+}
+.table-name{
+    width: 100%;
+}
+.table-head{
+    width: 100%;
+}
+
+@media (max-width: 992px) { 
+    .table-name{
+        width: 25%;
+    }
+    .table-head{
+        width: 15%;
+    }
+}

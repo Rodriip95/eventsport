@@ -46,7 +46,7 @@ function FormLogin(){
                         <label for="remem">Recordar seccion</label>
                     </div>
                     <button class="w-100 btn btn-lg btn-warning btnlogin" type="submit">Iniciar sección</button>
-                    <button class="w-50 btn btn-light btnlogin mt-2 border">Cancelar</button>
+                    <button onClick={()=>navigation.push("/")} class="w-50 btn btn-light btnlogin mt-2 border">Cancelar</button>
                     <p class="mt-5 mb-3 text-muted">© Devrops–2021</p>
                 </form>
             </main>
