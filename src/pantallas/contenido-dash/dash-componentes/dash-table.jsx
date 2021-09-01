@@ -119,10 +119,13 @@ function TablaPosiciones({categoria}){
     }
 
     const tableHistorial = (ganadorName , perdedorName) => {
+        let t = firebase.firestore.Timestamp.fromDate(new Date());
+        let d = t.toDate().toLocaleDateString();
         db.collection(`${categoria}_historial`).add(
             {...result, 
                 ganador: ganadorName, 
-                perdedor: perdedorName
+                perdedor: perdedorName,
+                fecha: d
             }
             )
         .then((docRef) => {

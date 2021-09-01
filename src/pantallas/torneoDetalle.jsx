@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
 import Footer from '../componentes/footer';
+import HeroTorneo from '../componentes/heroTorneo';
 import Navbar from '../componentes/navbar';
 import { db } from '../firebase';
 
@@ -29,8 +30,7 @@ function TorneoDetalle(){
     return(
         <>
             <Navbar/>
-            {console.log(equipos)}
-            <h1>{equipos.length}</h1>
+            <HeroTorneo categoria={categoria} equipos={equipos}/>
             <Footer/>
         </>
     )
