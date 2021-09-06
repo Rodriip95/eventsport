@@ -30,6 +30,7 @@ export default function Album() {
   return (
     <div class="album py-5 bg-light">
       <div class="container">
+        <h2 id="noticias" class="pb-2 mb-4 border-bottom">Noticias</h2>
         {cargando ? 
           <div class="py-4 d-flex justify-content-center">
             <div class="spinner-grow text-warning" style={{width: "3rem", height: "3rem"}} role="status"/>

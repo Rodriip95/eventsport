@@ -4,7 +4,7 @@ import './contacto.scss'
 export default function Contacto(){
 
     return(
-        <div class="container">
+        <div class="container" id="contacto">
             <h2 class="pb-2 border-bottom mb-4">Contacto</h2>
             <div class="row d-flex justify-content-center">
                 <div class="col-10 col-lg-8">
@@ -22,6 +22,9 @@ export default function Contacto(){
                     <div class="form-floating">
                         <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style={{height: "100px"}}></textarea>
                         <label for="floatingTextarea2">Comments</label>
+                    </div>
+                    <div className="text-center mt-3">
+                        <button className="btn btn-lg px-4 text-white btn-warning">Enviar</button>
                     </div>
                 </div>
             </div>

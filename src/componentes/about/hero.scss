@@ -1,0 +1,30 @@
+@import "../../variables/constants.scss";
+
+.title-about{
+    h1{
+        font-family: $fuente_secundaria;
+        font-weight: 400;
+        span{
+            font-family: $fuente_principal;
+        }
+        :last-child{
+            color: $vivos;
+        }
+    }
+}
+
+.title-text{
+    font-family: $fuente_secundaria;
+}
+
+@media only screen and (min-width: 768px) {
+    .title-text{
+        width: 80%;
+    }
+}
+
+@media only screen and (min-width: 992px) {
+    .title-text{
+        width: 60%;
+    }
+}

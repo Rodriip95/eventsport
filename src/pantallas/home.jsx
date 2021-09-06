@@ -10,12 +10,12 @@ import Torneos from '../componentes/torneos';
 function Home(){
     return(
         <>
-            <Navbar/>
+            <Navbar home={true}/>
             <Hero/>
             <Album/>
             <Torneos/>
-            <Contacto/>
             <Check/>
+            <Contacto/>
             <Footer/>
         </>
     )

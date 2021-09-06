@@ -1,6 +1,13 @@
 import React from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
 import "./hero.scss"
 export default function Hero(){
+
+    const navigation = useHistory()
+
+    const goAbout = () => {
+        navigation.push("/about")
+    }
     return(
         <div class="container">
             <div class="row flex-lg-row align-items-center g-5 pb-5">
@@ -10,7 +17,7 @@ export default function Hero(){
                 <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptate dignissimos maiores mollitia minima commodi, dolore exercitationem aliquam aut, deleniti veniam libero tempora totam suscipit excepturi reiciendis odit impedit? Doloribus, molestias.</p>
                     <div class="d-grid gap-2 d-md-flex justify-content-md-start">
                         <button type="button" class="btn btn-primary btn-lg px-4 me-md-2 btn-hero">Unirme</button>
-                        <button type="button" class="btn btn-outline-secondary btn-lg px-4">Mas Info</button>
+                        <button type="button" class="btn btn-outline-secondary btn-lg px-4" onClick={goAbout}>Mas Info</button>
                     </div>
                 </div>
 

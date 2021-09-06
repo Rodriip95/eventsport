@@ -14,18 +14,21 @@ import NoMatch from './pantallas/error/error';
 import Footer from './componentes/footer';
 import Login from './pantallas/login';
 import DashboardMenu from './pantallas/dashboard.jsx';
+import AboutPage from './pantallas/about';
 
 export default function App (){
   return(
     <Router>
         <Switch>
 
-            <Route path="/torneo/:categoria" children={<TorneoDetalle/>}>
+            <Route path="/torneo/:categoria" children={<TorneoDetalle/>}/>
               
-            </Route>
-
             <Route exact path="/admin/dashboard">
               <DashboardMenu />
+            </Route>
+
+            <Route exact path="/about">
+              <AboutPage/>
             </Route>
 
             <Route exact path="/admin">

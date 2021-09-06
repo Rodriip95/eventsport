@@ -77,7 +77,27 @@ function DetalleCategoria({categoria}){
             setCargando(false)
         });
 
+        addPlayerDb(listadoAdd, equipo)
+
         teamsCollection()
+    }
+
+    const addPlayerDb = (arr, equipo) => {
+        arr.map( j => {
+
+            db.collection("jugadores").add({
+                name: j.name,
+                dni: j.dni,
+                equipo: equipo
+            })
+            .then((docRef) => {
+                console.log("Document written with ID: ", docRef.id);
+            })
+            .catch((error) => {
+                console.error("Error adding document: ", error);
+            });
+
+        })
     }
 
     const [listadoAdd, setListado] = useState([])

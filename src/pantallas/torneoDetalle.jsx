@@ -29,7 +29,7 @@ function TorneoDetalle(){
 
     return(
         <>
-            <Navbar/>
+            <Navbar home={false}/>
             <HeroTorneo categoria={categoria} equipos={equipos}/>
             <Footer/>
         </>
