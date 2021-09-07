@@ -259,6 +259,8 @@ function TeamLine({team, categoria, refresh}){
     const [dele, setDelete] = useState(false)
 
     const handlerDeleteTeam = () => {
+        let nombreEquipo = team.equipo
+        deleteTableAndPlayer(nombreEquipo, categoria)
         setDelete(true)
         document.getElementById("cont"+team.id).style.opacity= "0.4"
         db.collection(categoria).doc(team.id).delete().then(() => {
@@ -269,6 +271,52 @@ function TeamLine({team, categoria, refresh}){
             setDelete(false)
             console.error("Error removing document: ", error);
         });
+    }
+
+    const deleteTableAndPlayer = (name, categoria) => {
+
+        db.collection(`${categoria}_table`).where("name", "==", name).get()
+        .then((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+                // doc.data() is never undefined for query doc snapshots
+                deleteTable(doc.id, categoria)
+            });
+        })
+        .catch((error) => {
+            console.log("Error al borrar tabla: ", error);
+        });
+
+        db.collection(`jugadores`).where("name", "==", name).get()
+        .then((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+                // doc.data() is never undefined for query doc snapshots
+                deletePlayers(doc.id)
+            });
+        })
+        .catch((error) => {
+            console.log("Error jugadores: ", error);
+        });
+
+    }
+
+    const deleteTable = (id, categoria) => {
+
+        db.collection(`${categoria}_table`).doc(id).delete().then(() => {
+            console.log("Document successfully deleted!");
+        }).catch((error) => {
+            console.error("Error removing document: ", error);
+        });
+
+    }
+
+    const deletePlayers = (id) => {
+
+        db.collection("jugadores").doc(id).delete().then(() => {
+            console.log("Document successfully deleted!");
+        }).catch((error) => {
+            console.error("Error removing document: ", error);
+        });
+
     }
 
     const handlerEditNew = () => {

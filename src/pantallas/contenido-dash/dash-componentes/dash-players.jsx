@@ -23,11 +23,15 @@ export default function DashHome({activo}){
                 <button onClick={()=> handlerSelect("veteranos")} className={categoria == "veteranos" ? classelect : clasnoselect}>Veteranos +40</button>
             </div>
 
-            {/* {categoria == "libres" && <DetalleCategoria categoria={"libres"} />}
-            {categoria == "maxi" && <DetalleCategoria categoria={"maxi"} />}
-            {categoria == "veteranos" && <DetalleCategoria categoria={"veteranos"} />} */}
+            {categoria == "libres" && <ListPlayers categoria={"libres"} />}
+            {categoria == "maxi" && <ListPlayers categoria={"maxi"} />}
+            {categoria == "veteranos" && <ListPlayers categoria={"veteranos"} />}
 
         </>
     )
+}
+
+function ListPlayers({categoria}) {
+    
 }
 
