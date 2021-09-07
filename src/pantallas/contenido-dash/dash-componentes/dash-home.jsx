@@ -34,6 +34,7 @@ export default function DashHome({activo}){
 function DetalleCategoria({categoria}){
 
     const [equipo, setEquipo] = useState("")
+    const [zona, setZona] = useState(null)
     
     const [cargando, setCargando] = useState(false)
 
@@ -46,6 +47,7 @@ function DetalleCategoria({categoria}){
 
         db.collection(`${categoria}_table`).add({
             name: equipo,
+            zona: zona,
             PJ: 0,
             PG: 0, 
             PP: 0,
@@ -62,17 +64,20 @@ function DetalleCategoria({categoria}){
         db.collection(categoria).add({
                 equipo,
                 jugadores: listadoAdd,
+                zona: zona,
                 createAt: d
             })
         .then((docRef) => {
             console.log("Document written with ID: ", docRef.id);
             setEquipo("")
+            setZona("")
             setListado([])
             setCargando(false)
         })
         .catch((error) => {
             console.error("Error adding document: ", error);
             setEquipo("")
+            setZona("")
             setListado([])
             setCargando(false)
         });
@@ -88,7 +93,8 @@ function DetalleCategoria({categoria}){
             db.collection("jugadores").add({
                 name: j.name,
                 dni: j.dni,
-                equipo: equipo
+                equipo: equipo,
+                categoria
             })
             .then((docRef) => {
                 console.log("Document written with ID: ", docRef.id);
@@ -189,6 +195,14 @@ function DetalleCategoria({categoria}){
                         <div class="modal-body">
                             <p class="m-0 p-0 p-1">Nombre del equipo:</p>
                             <input value={equipo} onChange={(e)=>setEquipo(e.target.value)} class="form-control" placeholder="Ingrese el nombre..."/>
+
+                            <p class="m-0 p-0 p-1">División:</p>
+                            <select class="form-select" value={zona} aria-label="Default select example" onChange={(e)=>{setZona(e.target.value)}}>
+                                <option selected value={null}>Selecciona Division</option>
+                                <option value="A">Zona A</option>
+                                <option value="B">Zona B</option>
+                                <option value="C">Zona C</option>
+                            </select>
 
                             <p class="m-0 p-0 p-1 mt-3">Listado de jugadores: { listadoAdd.length > 0 ? `${listadoAdd.length}/15` : ""}</p>
 
