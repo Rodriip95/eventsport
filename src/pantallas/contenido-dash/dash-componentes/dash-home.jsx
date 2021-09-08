@@ -94,7 +94,7 @@ function DetalleCategoria({categoria}){
                 name: j.name,
                 dni: j.dni,
                 equipo: equipo,
-                categoria
+                categoria : categoria
             })
             .then((docRef) => {
                 console.log("Document written with ID: ", docRef.id);
@@ -432,18 +432,22 @@ function ListadoPlayerEdit({data, categoria, refresh}){
         dni:""
     })
 
+    const [nuevos, setNuevos] = useState([])
+
      const removeArr = ( p ) => {
          setArr(arrPlayers.filter( v => v.dni != p.dni))
+         setNuevos(nuevos.filter( v => v.dni != p.dni))
      }
 
      const alterArr = ( p ) => {
          setArr( arrPlayers.concat(p))
+         setNuevos(nuevos.concat(p))
      }
 
      const handlerAddNewPlayer = () => {
         setArr( arrPlayers.concat(nuevo))
         setAux( aux.concat(nuevo))
-
+        setNuevos([...nuevos, nuevo])
         setnuevo({
             name:"",
             dni:""
@@ -453,6 +457,8 @@ function ListadoPlayerEdit({data, categoria, refresh}){
      const handlerEditPlayer =()=>{
         console.log(arrPlayers.length)
         var editar = db.collection(categoria).doc(data.id);
+        console.log("Handler Edit")
+        addPlayerArr(nuevos)
 
         editar.update({
             ...data,
@@ -466,6 +472,33 @@ function ListadoPlayerEdit({data, categoria, refresh}){
             console.error("Error updating document: ", error);
         });
     }
+
+    const addPlayerArr = (nuevos) => {
+        console.log("Add Player Unit")
+        nuevos.map( n => {
+            db.collection("jugadores").add({
+                name: n.name,
+                dni: n.dni,
+                categoria: categoria,
+                equipo: data.equipo
+            })
+            .then((docRef) => {
+                console.log("Document written with ID: ", docRef.id);
+            })
+            .catch((error) => {
+                console.error("Error adding document: ", n.name);
+            });
+        })
+    }
+
+    const addNewPlayerInput = (e) => {
+        setnuevo({...nuevo, [e.target.name] : e.target.value})
+    }
+
+    const handlerCancelPlayer = () => {
+        setNuevos([])
+    }
+
     return(
         <>
             {/* Players Start */}
@@ -479,8 +512,8 @@ function ListadoPlayerEdit({data, categoria, refresh}){
                     <div class="modal-body">
                         <span>Agregar nuevo jugador</span>
                         <div class="d-flex justify-content-between m-1 py-2">
-                            <input value={nuevo.name} onChange={(e)=>setnuevo({...nuevo, name: e.target.value})} class="form-control" placeholder="Nombre del Jugador..."/>
-                            <input value={nuevo.dni} onChange={(e)=>setnuevo({...nuevo, dni: e.target.value})} class="form-control mx-1" placeholder="DNI..."/>
+                            <input value={nuevo.name} name="name" onChange={addNewPlayerInput} class="form-control" placeholder="Nombre del Jugador..."/>
+                            <input value={nuevo.dni} name="dni" onChange={addNewPlayerInput} class="form-control mx-1" placeholder="DNI..."/>
                             <button disabled={ (nuevo.name !== "" && nuevo.dni !== "") ? false : true} onClick={handlerAddNewPlayer} class="btn btn-success rounded" style={{fontWeight:'bold'}}>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
                                     <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
@@ -493,7 +526,7 @@ function ListadoPlayerEdit({data, categoria, refresh}){
                         
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onClick={handlerCancelPlayer}>Cancelar</button>
                         <button 
                             type="button" 
                             class="btn btn-primary" 

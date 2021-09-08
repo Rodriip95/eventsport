@@ -1,6 +1,10 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import "./hero.scss"
 export default function About(){
+
+    useEffect(()=>{
+        window.scroll(0,0)
+    },[])
 
     return(
         <div className="container my-5">

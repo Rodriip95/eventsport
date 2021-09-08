@@ -23,7 +23,8 @@ export default function DashNews(){
                 titulo,
                 description,
                 image,
-                fecha : d
+                fecha : d,
+                numero: datos.length
             })
             .then((docRef) => {
                 console.log("Document written with ID: ", docRef.id);
@@ -142,10 +143,10 @@ export default function DashNews(){
                         </div>
 
                         <div class="d-flex justify-content-center mt-3">
-                            <textarea value={description} onChange={(evt)=> setDescription(evt.target.value)} class="form-control" maxLength={400} placeholder="Comentario del posteo..."/>
+                            <textarea value={description} onChange={(evt)=> setDescription(evt.target.value)} class="form-control" maxLength={500} placeholder="Comentario del posteo..."/>
                         </div>
                         <div class="d-flex justify-content-end px-1">
-                            <span class="form-text">{`${description.length}/400`}</span>
+                            <span class="form-text">{`${description.length}/500`}</span>
                         </div>
                     </div>
                     <div class="modal-footer">

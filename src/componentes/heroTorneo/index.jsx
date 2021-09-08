@@ -9,6 +9,7 @@ export default function HeroTorneo({categoria, equipos}){
     useEffect(()=>{
         window.scroll(0,0)
     },[])
+    
     return(
         <>
         <div class="container-fluid p-0 m-0 position-relative">

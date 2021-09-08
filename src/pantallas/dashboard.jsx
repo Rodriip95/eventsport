@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import Dashboard from './dashboard/index.jsx'
 import ContenidoDash from './contenido-dash/index.jsx'
 
-export default function DashboardMenu(){
+export default function DashboardMenu({handlerLogout}){
     const [activo, setActivo] = useState("home")
 
     const handlerClickOption = ( opt ) => {
@@ -11,7 +11,7 @@ export default function DashboardMenu(){
     return(
         <>
             <div className="d-flex justify-content-between">
-                <Dashboard activo={activo} handlerClickOption={handlerClickOption}/>
+                <Dashboard handlerLogout={handlerLogout} activo={activo} handlerClickOption={handlerClickOption}/>
                 <ContenidoDash activo={activo}/>
             </div>
         </>

@@ -1,8 +1,11 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import './dash.scss'
-export default function Dashboard({activo, handlerClickOption}){
 
+
+export default function Dashboard({activo, handlerClickOption, handlerLogout}){
+
+  const navigation = useHistory()
   
   let class_options = "dashoption d-flex my-2 align-items-end p-2 rounded"
   let class_active = "dashoption dashoption-active d-flex my-2 align-items-end p-2 rounded"
@@ -49,12 +52,15 @@ export default function Dashboard({activo, handlerClickOption}){
           </div>
         </div>
         <div>
-            <Link to="/admin" className="dashexit">
+            <div className="dashexit" onClick={()=>{
+              navigation.push("/admin")
+              handlerLogout()
+            }}>
               <div class="d-flex my-2 align-items-end p-2">
                   <ExitIcon/>
                   <span class="px-4 span-option-dash" style={{color:"#fff"}}>Salir</span>
               </div>
-            </Link>
+            </div>
         </div>
       </div>
   )

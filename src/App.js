@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Home from './pantallas/home'
 import TorneoDetalle from './pantallas/torneoDetalle'
 import "./variables/constants.scss"
@@ -17,22 +17,34 @@ import DashboardMenu from './pantallas/dashboard.jsx';
 import AboutPage from './pantallas/about';
 
 export default function App (){
+  const [login, setLogin] = useState(null)
+
+  const handlerLogin = ( id ) => {
+    setLogin( id )
+  }
+
+  const handlerLogout = ( ) => {
+    setLogin( null )
+  }
+
   return(
     <Router>
         <Switch>
+ 
+            {login &&
+              <Route exact path="/admin/dashboard">
+                <DashboardMenu handlerLogout={handlerLogout}/>
+              </Route>
+            }
 
             <Route path="/torneo/:categoria" children={<TorneoDetalle/>}/>
-              
-            <Route exact path="/admin/dashboard">
-              <DashboardMenu />
-            </Route>
 
             <Route exact path="/about">
               <AboutPage/>
             </Route>
 
             <Route exact path="/admin">
-              <Login />
+              <Login handlerLogin={handlerLogin} handlerLogout={handlerLogout}/>
             </Route>
 
             <Route exact path="/">

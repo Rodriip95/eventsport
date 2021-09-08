@@ -7,12 +7,13 @@ export default function Album() {
 
   const [noticias, setNoticias] = useState([])
   const [cargando, setCargando] = useState(false)
+  const [pag, setPag] = useState(1)
 
   const newsCollection = () => {
     setCargando(true)
 
     let nuevoArr = []
-    db.collection("news").get().then((querySnapshot) => {
+    db.collection("news").orderBy("fecha", "desc").get().then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
             let res = doc.data()
             res.id = doc.id
@@ -37,11 +38,32 @@ export default function Album() {
           </div>
         :
           <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-3">
-            {noticias.map( noti => (
-              <ItemAlbum key={noti.id} noti={noti}/>
-              ))}
+            {noticias.map(( noti, i) =>
+               {
+                if( i<(pag * 6) && i>=((pag-1)*6)){
+                  return(
+                    <ItemAlbum key={noti.id} noti={noti}/>
+                  )
+                }
+              }
+              )}
           </div>
           }
+          <div className="mt-3 d-flex justify-content-center">
+            
+              <ul class="pagination">
+                <li class="page-item">
+                  <span class="page-link">Anterior</span>
+                </li>
+                <li class="page-item">
+                  <span class="page-link">{pag}</span>
+                </li>
+                <li class="page-item">
+                  <span class="page-link">Siguiente</span>
+                </li>
+              </ul>
+            
+          </div>
       </div>
     </div>
   );
