@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useHistory, useLocation } from 'react-router-dom'
-import { useState } from 'react/cjs/react.development'
 import { auth } from '../../firebase'
+import 'firebase/auth';
+
 import './login.scss'
 export default function Login(props){
     

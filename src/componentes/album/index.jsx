@@ -29,7 +29,7 @@ export default function Album() {
   },[])
 
   return (
-    <div class="album py-5 bg-light">
+    <div class="album pt-5 pb-3 bg-light">
       <div class="container">
         <h2 id="noticias" class="pb-2 mb-4 border-bottom">Noticias</h2>
         {cargando ? 
@@ -50,18 +50,12 @@ export default function Album() {
           </div>
           }
           <div className="mt-3 d-flex justify-content-center">
-            
-              <ul class="pagination">
-                <li class="page-item">
-                  <span class="page-link">Anterior</span>
-                </li>
-                <li class="page-item">
-                  <span class="page-link">{pag}</span>
-                </li>
-                <li class="page-item">
-                  <span class="page-link">Siguiente</span>
-                </li>
-              </ul>
+
+              <div className="btn-page">
+                <button className="btn" onClick={()=>setPag(pag - 1)} disabled={pag == 1 ? true : false}>Anterior</button>
+                <button className="btn">{pag}</button>
+                <button className="btn" onClick={()=>setPag(pag + 1)} disabled={((pag - 1) * 6) < noticias.length && noticias.length <= (pag * 6) ? true : false}>Siguiente</button>
+              </div>
             
           </div>
       </div>

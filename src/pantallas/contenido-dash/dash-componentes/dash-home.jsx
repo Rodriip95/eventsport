@@ -18,14 +18,14 @@ export default function DashHome({activo}){
             <h1 class="px-2">Categorias</h1>
             <hr class="w-50"/>
             <div className="d-flex justify-content-around">
-                <button onClick={()=> handlerSelect("libres")} className={categoria == "libres" ? classelect : clasnoselect}>Libres</button>
-                <button onClick={()=> handlerSelect("maxi")} className={categoria == "maxi" ? classelect : clasnoselect}>Maxi +35</button>
-                <button onClick={()=> handlerSelect("veteranos")} className={categoria == "veteranos" ? classelect : clasnoselect}>Veteranos +40</button>
+                <button onClick={()=> handlerSelect("libres")} className={categoria === "libres" ? classelect : clasnoselect}>Libres</button>
+                <button onClick={()=> handlerSelect("maxi")} className={categoria === "maxi" ? classelect : clasnoselect}>Maxi +35</button>
+                <button onClick={()=> handlerSelect("veteranos")} className={categoria === "veteranos" ? classelect : clasnoselect}>Veteranos +40</button>
             </div>
 
-            {categoria == "libres" && <DetalleCategoria categoria={"libres"} />}
-            {categoria == "maxi" && <DetalleCategoria categoria={"maxi"} />}
-            {categoria == "veteranos" && <DetalleCategoria categoria={"veteranos"} />}
+            {categoria === "libres" && <DetalleCategoria categoria={"libres"} />}
+            {categoria === "maxi" && <DetalleCategoria categoria={"maxi"} />}
+            {categoria === "veteranos" && <DetalleCategoria categoria={"veteranos"} />}
 
         </>
     )
@@ -435,8 +435,8 @@ function ListadoPlayerEdit({data, categoria, refresh}){
     const [nuevos, setNuevos] = useState([])
 
      const removeArr = ( p ) => {
-         setArr(arrPlayers.filter( v => v.dni != p.dni))
-         setNuevos(nuevos.filter( v => v.dni != p.dni))
+         setArr(arrPlayers.filter( v => v.dni !== p.dni))
+         setNuevos(nuevos.filter( v => v.dni !== p.dni))
      }
 
      const alterArr = ( p ) => {

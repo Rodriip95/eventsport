@@ -4,7 +4,7 @@ import "./navbar.scss"
 
 export default function Navbar({home}){
 
-    const navigation = useHistory()
+    // const navigation = useHistory()
     return(
         <>
         {home ?

@@ -6,12 +6,8 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link,
-  useLocation
 } from "react-router-dom";
-import Navbar from './componentes/navbar';
 import NoMatch from './pantallas/error/error';
-import Footer from './componentes/footer';
 import Login from './pantallas/login';
 import DashboardMenu from './pantallas/dashboard.jsx';
 import AboutPage from './pantallas/about';

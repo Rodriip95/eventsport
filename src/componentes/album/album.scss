@@ -16,3 +16,22 @@
         border-color: $vivos;
     }
 }
+
+.btn-page{
+    button{
+        border: 1px solid $vivos;
+        border-radius: 0px;
+        background-color: #fff;
+        &:hover{
+            color: rgb(0, 0, 0);
+        }
+    }
+    :first-child{
+        border-radius: 5px 0px 0px 5px;
+        color: rgb(121, 121, 121);
+    }
+    :last-child{
+        border-radius: 0px 5px 5px 0px;
+        color: rgb(121, 121, 121);
+    }
+}
