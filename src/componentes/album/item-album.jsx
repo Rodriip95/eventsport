@@ -17,7 +17,7 @@ export default function ItemAlbum( {noti} ){
                 <div>
                   <h5 class="card-title">{noti.titulo}</h5>
                   <p class="card-text">
-                    {noti.description}
+                    {noti.description.length > 120 ? noti.description.slice(0, 120) + "..." : noti.description}
                   </p>
                 </div>
                 <div class="d-flex justify-content-between align-items-center">

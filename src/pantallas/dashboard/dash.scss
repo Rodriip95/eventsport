@@ -1,9 +1,15 @@
 @import "../../variables/constants.scss";
 
-#side{
-    width: 280px;
-    min-height: 100vh;
+#sideContainer{
+    min-width: 280px;
+    height: 100vh;
     overflow-y: hidden;
+}
+
+#side{
+    position: fixed;
+    height: 100%;
+    width: 280px;
 }
 
 svg{
@@ -39,6 +45,9 @@ svg{
 
 
 @media (max-width: 992px) { 
+    #sideContainer{
+        width: 60px;
+    }
     #side{
         width: 60px;
     }

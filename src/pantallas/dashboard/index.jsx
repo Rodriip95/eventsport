@@ -12,6 +12,7 @@ export default function Dashboard({activo, handlerClickOption, handlerLogout}){
   
 
   return(
+    <div id="sideContainer">
       <div id="side" class="d-flex flex-column justify-content-between p-1 p-lg-3 bg-dark">
         <div>
           <div>
@@ -22,31 +23,31 @@ export default function Dashboard({activo, handlerClickOption, handlerLogout}){
           </div>
           <div class={activo === "home" ? class_active : class_options }
             onClick={()=>handlerClickOption("home")}
-          >
+            >
             <HomeIcon/>
             <span class="px-4 span-option-dash">Inicio</span>
           </div>
           <div class={activo === "news" ? class_active : class_options }
             onClick={()=>handlerClickOption("news")}
-          >
+            >
             <NewsIcon/>
             <span class="px-4 span-option-dash">Noticias</span>
           </div>
           <div class={activo === "table" ? class_active : class_options }
             onClick={()=>handlerClickOption("table")}
-          >
+            >
             <TableIcon/>
             <span class="px-4 span-option-dash">Tabla</span>
           </div>
           <div class={activo === "jugadores" ? class_active : class_options }
             onClick={()=>handlerClickOption("jugadores")}
-          >
+            >
             <PlayersIcon/>
             <span class="px-4 span-option-dash">Jugadores</span>
           </div>
           <div class={activo === "inbox" ? class_active : class_options }
             onClick={()=>handlerClickOption("inbox")}
-          >
+            >
             <InboxIcon/>
             <span class="px-4 span-option-dash">Inbox</span>
           </div>
@@ -63,6 +64,7 @@ export default function Dashboard({activo, handlerClickOption, handlerLogout}){
             </div>
         </div>
       </div>
+    </div>
   )
 }
 
