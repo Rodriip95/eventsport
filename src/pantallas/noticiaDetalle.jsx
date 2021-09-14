@@ -1,18 +1,22 @@
-import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom';
+import React from 'react'
 import Footer from '../componentes/footer';
-import HeroTorneo from '../componentes/heroTorneo';
 import Navbar from '../componentes/navbar';
-import { db } from '../firebase';
-import {useHistory, useLocation} from 'react-router-dom'
+import { useLocation , useHistory } from 'react-router-dom'
+import './screens.scss'
 
 function NoticiaDetalle(){
     const {state} = useLocation()
+    const navigation = useHistory()
 
     return(
         <>
             <Navbar home={false}/>
+            <div className="container new-detail text-center">
+                <img className="rounded" src={state.noticia.imagelink} alt={state.noticia.titulo}/>
                 <h1>{state.noticia.titulo}</h1>
+                <p>{state.noticia.description}</p>
+                <button className="btn btn-warning mt-3" onClick={()=>navigation.goBack()}>Volver</button>
+            </div>
             <Footer/>
         </>
     )

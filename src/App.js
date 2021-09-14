@@ -12,6 +12,7 @@ import NoMatch from './pantallas/error/error';
 import Login from './pantallas/login';
 import DashboardMenu from './pantallas/dashboard.jsx';
 import AboutPage from './pantallas/about';
+import Registro from './componentes/registro'
 
 export default function App (){
   const [login, setLogin] = useState(null)
@@ -37,6 +38,10 @@ export default function App (){
             <Route path="/torneo/:categoria" children={<TorneoDetalle/>}/>
 
             <Route path="/new/:newId" children={<NoticiaDetalle/>}/>
+
+            <Route exact path="/registro">
+              <Registro/>
+            </Route>
 
             <Route exact path="/about">
               <AboutPage/>
