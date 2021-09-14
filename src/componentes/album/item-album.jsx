@@ -1,16 +1,36 @@
-import React from 'react'
+import React,{ useEffect , useState } from 'react'
+import firebase from 'firebase'
 import "./album.scss"
+import { useHistory } from 'react-router'
 
 export default function ItemAlbum( {noti} ){
+    const [noticia, setNoticia] = useState(noti)
 
-    let styleAlbum = {
-      backgroundImage: `url('${noti.image}')`     
+    useEffect(()=>{
+      if(!noti.imagelink){
+          getStorage(noti.id)
+      }
+    },[])
+
+    const getStorage = (id) => {
+      const storageRef = firebase.storage().ref(`/news/${id}`)
+      storageRef.getDownloadURL().then((res)=>{
+        setNoticia({...noticia, imagelink: res})
+      })
+      .catch(err => console.log(err))
     }
+
+    const navigation = useHistory()
+
+    const handlerPushNew = () => {
+      navigation.push(`/new/${noticia.id}`, {noticia})
+    }
+
     return(
         <div class="col">
             <div class="card shadow-sm">
               
-              <div class="img-fondo" style={styleAlbum}>
+              <div class="img-fondo" style={{backgroundImage: `url('${noticia.imagelink}')`}}>
               </div>
 
               <div class="card-body d-flex flex-column justify-content-between">
@@ -25,6 +45,7 @@ export default function ItemAlbum( {noti} ){
                     <button
                       type="button"
                       class="btn btn-sm btn-outline-danger"
+                      onClick={handlerPushNew}
                     >
                       Ver Post
                     </button>

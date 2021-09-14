@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import Home from './pantallas/home'
 import TorneoDetalle from './pantallas/torneoDetalle'
+import NoticiaDetalle from './pantallas/noticiaDetalle'
 import "./variables/constants.scss"
 import {
   BrowserRouter as Router,
@@ -34,6 +35,8 @@ export default function App (){
             }
 
             <Route path="/torneo/:categoria" children={<TorneoDetalle/>}/>
+
+            <Route path="/new/:newId" children={<NoticiaDetalle/>}/>
 
             <Route exact path="/about">
               <AboutPage/>

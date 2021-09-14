@@ -6,12 +6,21 @@ import {db} from '../../../firebase'
 export default function DashNews(){
 
     const [titulo, setTitulo] = useState("")
-    const [image, setImage] = useState("")
     const [description, setDescription] = useState("")
-
+    const [image, setImage] = useState(null)
+    const [imageLink, setImageLink] = useState("")
+    
     const [datos, setDatos] = useState([])
-
+    
+    const [toggle, setToggle] = useState(false)
     const [cargando , setCargando] = useState(false)
+
+    const handlerCancelUpload = () => {
+        setDescription("")
+        setTitulo("")
+        setImage(null)
+        setImageLink("")
+    }
 
     const handlerAddNews = () => {
         console.log("Procesando posteo...")
@@ -19,34 +28,62 @@ export default function DashNews(){
         let t = firebase.firestore.Timestamp.fromDate(new Date());
         let d = t.toDate().toLocaleDateString();
 
+        const verify = imageLink == "" ? false : imageLink
+
+        console.log({
+            titulo,
+            description,
+            fecha : d,
+            numero: datos.length,
+            imagelink: verify
+        })
+        console.log(imageLink)
+
         db.collection("news").add({
                 titulo,
                 description,
-                image,
                 fecha : d,
-                numero: datos.length
+                numero: datos.length,
+                imagelink: verify
             })
             .then((docRef) => {
                 console.log("Document written with ID: ", docRef.id);
+                uploadImage(docRef.id)
                 setCargando(false)
                 setTitulo("")
-                setImage("")
+                setImage(null)
                 setDescription("")
+                setImageLink("")
             })
             .catch((error) => {
                 console.error("Error adding document: ", error);
                 setCargando(false)
                 setTitulo("")
-                setImage("")
+                setImage(null)
                 setDescription("")
+                setImageLink("")
             });
 
             setTitulo("")
-            setImage("")
+            setImage(null)
             setDescription("")
+            setImageLink("")
         
             newsCollection()
     
+    }
+
+    const uploadImage = (id) => {
+       const storageRef = firebase.storage().ref(`/news/${id}`)
+       const subida = storageRef.put(image)
+       
+        subida.then(querySnapshot => {
+            console.log("Imagen subida")
+            storageRef.getDownloadURL().then((res)=>{
+                setImage(null)
+            })
+        })
+        .catch(err => console.log(err))
     }
 
     const newsCollection = () => {
@@ -124,14 +161,6 @@ export default function DashNews(){
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <div class="d-flex justify-content-center">
-                            <input class="form-control" type="text" placeholder="Link de imagen..."
-                            value={image}
-                            onChange={(evt)=> setImage(evt.target.value)}/>
-                        </div>
-                        <div class="d-flex justify-content-end px-1">
-                            <span class="form-text">Insertar el link de la imagen</span>
-                        </div>
 
                         <div class="d-flex justify-content-center mt-3">
                             <input class="form-control" type="text" maxLength={150} placeholder="Titulo..." 
@@ -142,20 +171,48 @@ export default function DashNews(){
                             <span class="form-text">{`${titulo.length}/150`}</span>
                         </div>
 
+                        <div className="d-flex justify-content-center mb-2">
+                            <button className="btn btn-success mx-2" onClick={()=>setToggle(false)}>Subir Imagen</button>
+                            <button className="btn btn-success mx-2" onClick={()=>setToggle(true)}>Copiar Link</button>
+                        </div>
+
+                        {toggle ? 
+                            <>
+                                <div class="d-flex justify-content-center">
+                                    <input class="form-control" type="text" placeholder="Link de imagen..."
+                                    value={imageLink}
+                                    onChange={(evt)=> setImageLink(evt.target.value)}/>
+                                </div>
+                                <div class="d-flex justify-content-end px-1">
+                                    <span class="form-text">Insertar el link de la imagen</span>
+                                </div>
+                            </>
+                            :
+                            <div>
+                                <input class="form-control" type="file" placeholder="Insertar imagen"
+                                    value={null}
+                                    accept="image/png, image/jpeg"
+                                    onChange={(e)=> {
+                                        console.log(e.target.files[0].name)
+                                        setImage(e.target.files[0])
+                                    }}/>
+                            </div>
+                        }
+
                         <div class="d-flex justify-content-center mt-3">
-                            <textarea value={description} onChange={(evt)=> setDescription(evt.target.value)} class="form-control" maxLength={500} placeholder="Comentario del posteo..."/>
+                            <textarea value={description} onChange={(evt)=> setDescription(evt.target.value)} class="form-control" maxLength={600} placeholder="Comentario del posteo..."/>
                         </div>
                         <div class="d-flex justify-content-end px-1">
-                            <span class="form-text">{`${description.length}/500`}</span>
+                            <span class="form-text">{`${description.length}/600`}</span>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-secondary" onClick={handlerCancelUpload} data-bs-dismiss="modal">Cancelar</button>
                         <button 
                             type="button" 
                             class="btn btn-primary" 
                             data-bs-dismiss="modal" onClick={handlerAddNews}
-                            disabled={ titulo.length > 0 && description.length > 0 && image.length > 0 ? false : true}
+                            disabled={ titulo.length > 0 && description.length > 0 ? false : true}
                         >Guardar</button>
                     </div>
                     </div>
@@ -168,6 +225,12 @@ export default function DashNews(){
 
 function PosteoData( {post} ){
     const [posteo, setPost] = useState(post)
+
+    useEffect(()=>{
+        if(!post.imagelink){
+            getStorage(post.id)
+        }
+    },[])
 
     const handlerEditNew = () => {
         var editar = db.collection("news").doc(posteo.id);
@@ -184,6 +247,7 @@ function PosteoData( {post} ){
     }
 
     const [dele, setDelete] = useState(false)
+
     const handlerDelete = () => {
         setDelete(true)
         document.getElementById("cont"+posteo.id).style.opacity = "0.4"
@@ -196,6 +260,14 @@ function PosteoData( {post} ){
             console.error("Error removing document: ", error);
             document.getElementById("cont"+posteo.id).style.opacity = "1"
         });
+    }
+
+    const getStorage = (id) => {
+        const storageRef = firebase.storage().ref(`/news/${id}`)
+        storageRef.getDownloadURL().then((res)=>{
+            setPost({...posteo, imagelink: res})
+        })
+        .catch(err => console.log(err))
     }
 
     return(
@@ -211,7 +283,7 @@ function PosteoData( {post} ){
                 <p>{posteo.description}</p>
             </div>
             <div class="col-3 col-lg-2 border p-2">
-                <img class="w-100 rounded" src={posteo.image} alt={posteo.titulo} />
+                <img class="w-100 rounded" src={posteo.imagelink} alt={posteo.titulo} />
             </div>
             <div class="col-2 col-lg-2 border p-2 d-flex justify-content-start justify-content-lg-end flex-column flex-lg-row align-items-center align-items-lg-start">
                 <button class="btn btn-success mb-2 action-btn" data-bs-toggle="modal" data-bs-target={`#${post.id}`}>
