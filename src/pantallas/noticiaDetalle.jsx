@@ -3,10 +3,15 @@ import Footer from '../componentes/footer';
 import Navbar from '../componentes/navbar';
 import { useLocation , useHistory } from 'react-router-dom'
 import './screens.scss'
+import { useEffect } from 'react';
 
 function NoticiaDetalle(){
     const {state} = useLocation()
     const navigation = useHistory()
+
+    useEffect(()=>{
+        window.scroll(0,0)
+    },[])
 
     return(
         <>
