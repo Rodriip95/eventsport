@@ -35,6 +35,7 @@ export default function DashTable({activo}){
 function TablaPosiciones({categoria}){
     const [equipos, setEquipos] = useState([])
     const [load, setLoad] = useState(false)
+    const [zone, setZone] = useState("A")
 
     const [result, setResult] = useState({
         equipoA: "",
@@ -47,11 +48,12 @@ function TablaPosiciones({categoria}){
 
     useEffect(()=>{
         getTable(categoria)
-    },[categoria, equipos])
+    },[categoria, zone])
 
     const getTable = (cat) => {
+        console.log("Consultando...");
         let nuevoArr = []
-        db.collection(`${cat}_table`).orderBy("P", "desc")
+        db.collection(`${cat}_table`).where("zona", "==", zone).orderBy("P", "desc")
         .get().then((querySnapshot) => {
             querySnapshot.forEach((doc) => {
                 let res = doc.data()
@@ -60,6 +62,13 @@ function TablaPosiciones({categoria}){
             })
             setEquipos(nuevoArr)
         })
+        .catch( err => {
+            console.log(err.message);
+        })
+    }
+
+    const handlerZone = (e) => {
+        setZone(e.target.value)
     }
 
     const subirResultado = () => {
@@ -77,7 +86,6 @@ function TablaPosiciones({categoria}){
             let perdedorTT = result.puntosA > result.puntosB ? result.puntosB : result.puntosA
             
             updateTabla( ganador,perdedor, parseInt(ganadorTT), parseInt(perdedorTT))
-            setEquipos([])
         }
     }
 
@@ -125,11 +133,13 @@ function TablaPosiciones({categoria}){
             {...result, 
                 ganador: ganadorName, 
                 perdedor: perdedorName,
-                fecha: d
+                fecha: d,
+                zona: zone
             }
             )
         .then((docRef) => {
             console.log("Document written with ID: ", docRef.id);
+            getTable(categoria)
             setLoad(false)
             cancelResultado()
         })
@@ -152,12 +162,10 @@ function TablaPosiciones({categoria}){
     }
 
     const onChangeInput = (e) => {
-        console.log(e.target.value)
         setResult({...result, [e.target.name]: e.target.value})
     }
 
     const onChangeSelect = (e) => {
-        console.log(e.target.value)
         setResult({...result, [e.target.name]: e.target.value})
     }
 
@@ -165,7 +173,14 @@ function TablaPosiciones({categoria}){
         <>
         <div className="mt-5 border pb-3 rounded">
             <div className="text-center mb-2 d-flex justify-content-between px-4">
-                <h1>{categoria.toUpperCase()}</h1>
+                <div className="d-flex pt-1 align-items-center">
+                    <h1 className="m-0 p-0">{`${categoria.toUpperCase()}:`}</h1>
+                    <select class="form-select" onChange={handlerZone} aria-label="Default select example">
+                        <option value="A">Zona "A"</option>
+                        <option value="B">Zona "B"</option>
+                        <option value="C">Zona "C"</option>
+                    </select>
+                </div>
                 <button class="btn btn-primary h-50 mt-2" data-bs-toggle="modal" data-bs-target="#addNewGame">
                     <span>{"Nuevo Partido "}</span>
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
@@ -235,7 +250,7 @@ function TablaPosiciones({categoria}){
             <div class="modal-dialog">
                 <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="addNewGameLabel">Nuevo Partido: {categoria}</h5>
+                    <h5 class="modal-title" id="addNewGameLabel">Nuevo Partido: {`${categoria.toUpperCase()} ZONA "${zone}"`}</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">

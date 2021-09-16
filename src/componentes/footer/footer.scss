@@ -4,6 +4,17 @@
     color: #fff;
     span{
         padding: 0 5px;
+        &:hover{
+            color: $vivos;
+        }
+    }
+}
+
+.link-admin{
+    text-decoration: none;
+    color: #fff;
+    &:hover{
+        color: $vivos;
     }
 }
 

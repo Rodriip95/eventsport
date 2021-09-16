@@ -23,7 +23,7 @@ export default function Navbar({home}){
                         <div class="w-100 d-flex justify-content-start justify-content-lg-end">
                             <ul class="navbar-nav">
                                 <li class="nav-item">
-                                    <Link className="nav-link" to="/admin">
+                                    <Link className="nav-link" to="/">
                                         <span>Inicio</span>
                                     </Link>
                                 </li>
@@ -57,7 +57,7 @@ export default function Navbar({home}){
                         <div class="w-100 d-flex justify-content-start justify-content-lg-end">
                             <ul class="navbar-nav">
                                 <li class="nav-item">
-                                    <Link className="nav-link" to="/admin">
+                                    <Link className="nav-link" to="/">
                                         <span>Inicio</span>
                                     </Link>
                                 </li>

@@ -2,16 +2,40 @@ import "./hero.scss"
 import React, { useEffect, useState } from 'react'
 import { db } from "../../firebase"
 
-export default function TableTorneo({categoria, equipos}){
+export default function TableTorneo({categoria}){
     const [historial, setHistorial] = useState([])
 
+    const [equipos, setEquipos] = useState([])
+    const [zone, setZone] = useState("A")
+
     useEffect(()=>{
+        getCategoria(categoria)
+    },[zone])
+
+    const getCategoria = async(cat) => {
+        let nuevoArr = []
+        await db.collection(`${cat}_table`).where("zona", "==", zone).orderBy("P", "desc").get()
+        .then((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+                let res = doc.data()
+                res.id = doc.id
+                nuevoArr.push( res )
+            })
+            // setCargando(false)
+        })
+        .catch(err => console.log("Historial Table"))
+        setEquipos(nuevoArr)
         getHistorial(categoria)
-    },[categoria])
+
+    }
 
     const getHistorial = async(categoria) =>{
+        console.log("Esperando historial...")
         let nuevoArr = []
-        await db.collection(`${categoria}_historial`).orderBy("fecha", "desc").get()
+        await db.collection(`${categoria}_historial`)
+        .where("zona", "==", zone)
+        .orderBy("fecha", "desc")
+        .get()
         .then((querySnapshot) => {
             querySnapshot.forEach((doc) => {
                 let res = doc.data()
@@ -19,13 +43,23 @@ export default function TableTorneo({categoria, equipos}){
                 nuevoArr.push( res )
             });
         })
+        .catch(err => console.log(err))
         setHistorial(nuevoArr)
+    }
+
+    const handlerZone = (e) => {
+        setZone(e.target.value)
     }
 
     return(
         <div className="container">
-            <div>
-                <h1 className="title-table mt-3">Tabla de posiciones:</h1>
+            <div className="d-flex align-items-center mt-3 mb-2">
+                <h1 className="title-table m-0 p-0">Tabla de posiciones:</h1>
+                <select style={{width: "120px"}} class="form-select" onChange={handlerZone} aria-label="Default select example">
+                    <option value="A">Zona "A"</option>
+                    <option value="B">Zona "B"</option>
+                    <option value="C">Zona "C"</option>
+                </select>
             </div>
             <div className="d-flex justify-content-between table-head-home bg-dark">
                 <p className="table-p-name">Nombre</p>

@@ -15,7 +15,7 @@ export default function Registro(){
     return(
         <>
         <Navbar home={false}/>
-        <div class="container">
+        <div class="container registro-container">
             <h1>Formulario de inscripcion:</h1>
             <p>Este formulario de inscripcion es para obtener informacion del equipo que se va a jugar el torneo.</p>
             
@@ -78,7 +78,7 @@ export default function Registro(){
 
             <div>
                 <p>En el siguiente campo ingresar el nombre, apellido y DNI de los jugadores que pertenecerian al equipo:</p>
-                <textarea name="description" onChange={handlerChange} className="form-control" id="description" rows="6"></textarea>
+                <textarea name="description" placeholder="Informacion del equipo..." onChange={handlerChange} className="form-control" id="description" rows="6"></textarea>
             </div>
 
             <div className="mt-4 text-center">

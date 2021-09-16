@@ -5,6 +5,18 @@ import 'firebase/auth';
 
 import './login.scss'
 export default function Login(props){
+
+    const navigation = useHistory()
+
+    useEffect(()=>{
+        auth.onAuthStateChanged((user)=>{
+            if (user) {
+                console.log("Logeadooo")
+                props.handlerLogin(user.uid)
+                navigation.push("/admin/dashboard")
+              }
+        })
+    },[])
     
     return(
         <div id="admin" class="container-fluid p-0" style={{height: "100vh"}}>

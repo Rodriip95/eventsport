@@ -19,7 +19,7 @@ export default function HeroTorneo({categoria, equipos}){
                 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex laudantium nobis repudiandae, nulla tenetur corporis officia sapiente nesciunt ab adipisci vitae veniam itaque vero non officiis eos, incidunt ad labore!</p>
             </div>
         </div>
-        <TableTorneo categoria={categoria} equipos={equipos}/>
+        <TableTorneo categoria={categoria}/>
         </>
     )
 };
