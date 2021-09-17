@@ -1,10 +1,8 @@
 import React from "react";
-import { useLocation } from "react-router";
 import Footer from "../../componentes/footer";
 import Navbar from "../../componentes/navbar";
 import imgError from "./404.svg"
 export default function NoMatch() {
-    let location = useLocation();
   
     return (
         <>

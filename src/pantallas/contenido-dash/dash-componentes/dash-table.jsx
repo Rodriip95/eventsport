@@ -20,9 +20,9 @@ export default function DashTable({activo}){
             <h1 class="px-2">Tabla de posiciones</h1>
             <hr class="w-50"/>
             <div className="d-flex justify-content-around">
-                <button onClick={()=> handlerSelect("libres")} className={categoria == "libres" ? classelect : clasnoselect}>Libres</button>
-                <button onClick={()=> handlerSelect("maxi")} className={categoria == "maxi" ? classelect : clasnoselect}>Maxi +35</button>
-                <button onClick={()=> handlerSelect("veteranos")} className={categoria == "veteranos" ? classelect : clasnoselect}>Veteranos +40</button>
+                <button onClick={()=> handlerSelect("libres")} className={categoria === "libres" ? classelect : clasnoselect}>Libres</button>
+                <button onClick={()=> handlerSelect("maxi")} className={categoria === "maxi" ? classelect : clasnoselect}>Maxi +35</button>
+                <button onClick={()=> handlerSelect("veteranos")} className={categoria === "veteranos" ? classelect : clasnoselect}>Veteranos +40</button>
             </div>
 
             {
@@ -73,10 +73,10 @@ function TablaPosiciones({categoria}){
 
     const subirResultado = () => {
         if(
-            result.equipoA != "" &&
-            result.equipoB != "" &&
-            result.puntosA != 0 &&
-            result.puntosB != 0 
+            result.equipoA !== "" &&
+            result.equipoB !== "" &&
+            result.puntosA !== 0 &&
+            result.puntosB !== 0 
         ){
             setLoad(true)
             let ganador = result.puntosA > result.puntosB ? result.equipoA : result.equipoB

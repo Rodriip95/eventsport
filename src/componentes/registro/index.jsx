@@ -1,15 +1,43 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import Footer from '../footer';
 import Navbar from '../navbar';
+import {db} from '../../firebase'
+import firebase from 'firebase';
 import "./hero.scss"
+import Swal from 'sweetalert2'
+
 export default function Registro(){
     const [state, setState] = useState({})
 
     const navigation = useHistory()
 
+    useEffect(()=>{
+        window.scroll(0,0)
+    },[])
+
     const handlerChange = (e) => {
         setState({...state, [e.target.name] : e.target.value})
+    }
+
+    const handlerRegistro = () => {
+        let t = firebase.firestore.Timestamp.fromDate(new Date());
+        let d = t.toDate().toLocaleDateString();
+        db.collection("inbox").add(
+            {
+                ...state,
+                fecha: d,
+                comentario: false
+            })
+        .then( res => {
+            Swal.fire(
+                'Solicitud Enviada!',
+                'Nos estaremos comunicando con vos para informarte el estado de tu solicitud de admisión al torneo.',
+                'success'
+              )
+            navigation.push("/")
+            setState({})
+        })
     }
 
     return(
@@ -82,7 +110,7 @@ export default function Registro(){
             </div>
 
             <div className="mt-4 text-center">
-                <button className="btn btn-lg btn-warning">Enviar Formulario</button>    
+                <button onClick={handlerRegistro} className="btn btn-lg btn-warning">Enviar Formulario</button>    
             </div>           
         </div>
         <Footer/>

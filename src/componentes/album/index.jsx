@@ -52,7 +52,7 @@ export default function Album() {
           <div className="mt-3 d-flex justify-content-center">
 
               <div className="btn-page">
-                <button className="btn" onClick={()=>setPag(pag - 1)} disabled={pag == 1 ? true : false}>Anterior</button>
+                <button className="btn" onClick={()=>setPag(pag - 1)} disabled={pag === 1 ? true : false}>Anterior</button>
                 <button className="btn">{pag}</button>
                 <button className="btn" onClick={()=>setPag(pag + 1)} disabled={((pag - 1) * 6) < noticias.length && noticias.length <= (pag * 6) ? true : false}>Siguiente</button>
               </div>

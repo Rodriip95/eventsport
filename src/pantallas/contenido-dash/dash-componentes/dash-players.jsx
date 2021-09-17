@@ -77,7 +77,7 @@ function ListPlayers({categoria}) {
 
     const applyFilter = (e) => {
         console.log(e.target.value)
-        if(e.target.value != "Mostrar todos los equipos"){
+        if(e.target.value !== "Mostrar todos los equipos"){
             let filtrado = jugadores.filter( eq => eq.equipo === e.target.value)
             setJugadoresFiltrado(filtrado)
         } else {

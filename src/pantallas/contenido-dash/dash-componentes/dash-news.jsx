@@ -28,7 +28,7 @@ export default function DashNews(){
         let t = firebase.firestore.Timestamp.fromDate(new Date());
         let d = t.toDate().toLocaleDateString();
 
-        const verify = imageLink == "" ? false : imageLink
+        const verify = imageLink === "" ? false : imageLink
 
         console.log({
             titulo,
