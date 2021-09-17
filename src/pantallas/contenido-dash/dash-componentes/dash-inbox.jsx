@@ -16,9 +16,9 @@ export default function DashInbox({activo}){
         getContactos()
     },[])
 
-    const getInscrip = () => {
+    const getInscrip = async() => {
         let nuevoArr = []
-        db.collection("inbox").where("comentario", "==", false).get()
+        await db.collection("inbox").where("comentario", "==", false).get()
         .then( querySnapshot => {
             querySnapshot.forEach((doc) => {
                 let res = doc.data()
@@ -29,9 +29,9 @@ export default function DashInbox({activo}){
         setInscripciones(nuevoArr)
     }
 
-    const getContactos = () => {
+    const getContactos = async() => {
         let nuevoArr = []
-        db.collection("inbox").where("comentario", "==", true).get()
+        await db.collection("inbox").where("comentario", "==", true).get()
         .then( querySnapshot => {
             querySnapshot.forEach((doc) => {
                 let res = doc.data()
@@ -61,16 +61,24 @@ function MapInscripciones({arr}) {
     return(
         <div>
             {arr.map( obj => (
-                <div key={obj.id} className="border">
-                    <p className="m-0 p-0">{obj.fecha}</p>
-                    <p className="m-0 p-0">{obj.name}</p>
-                    <p className="m-0 p-0">{obj.capitan}</p>
-                    <p className="m-0 p-0">{obj.mail}</p>
-                    <p className="m-0 p-0">{obj.tel}</p>
-                    <p className="m-0 p-0">{obj.categoria}</p>
-                    <p className="m-0 p-0">{obj.location}</p>
-                    <p className="m-0 p-0">{obj.description}</p>
-                    <p className="m-0 p-0">{obj.estuvieron}</p>
+                <div key={obj.id} className="border rounded my-2">
+                    <p className="my-0 mx-2 p-0 text-end">{obj.fecha}</p>
+                    <div className="d-flex justify-content-between">
+                        <p className="my-0 mx-2 p-0">Equipo: {obj.name}</p>
+                        <p className="my-0 mx-2 p-0">Capitan: {obj.capitan}</p>
+                    </div>
+                    <div className="d-flex justify-content-between">
+                        <p className="my-0 mx-2 p-0">Categoria: {obj.categoria}</p>
+                        <p className="my-0 mx-2 p-0">Localidad: {obj.location}</p>
+                    </div>
+                    <div className="d-flex justify-content-between">
+                        <p className="my-0 mx-2 p-0">Mail: {obj.mail}</p>
+                        <p className="my-0 mx-2 p-0">Tel: {obj.tel}</p>
+                    </div>
+                    <div className="border rounded m-2">
+                    <p className="m-0 p-2">{obj.description}</p>
+                    </div>
+                    <p className="mb-2 mx-2 p-0">Ya jugaron en el torneo? {obj.estuvieron.toUpperCase()}</p>
                 </div>
             ))}
         </div>
@@ -81,8 +89,15 @@ function MapContactos({arr}) {
     return(
         <div>
             {arr.map( obj => (
-                <div>
-                    <p>{obj.nombre}</p>
+                <div key={obj.id} className="border rounded my-2">
+                    <p className="my-0 mx-2 p-0 text-end">{obj.fecha}</p>
+                    <div className="d-flex justify-content-between">
+                        <p className="my-0 mx-2 p-0">{obj.nombre}</p>
+                        <p className="my-0 mx-2 p-0">{obj.email}</p>
+                    </div>
+                    <div className="border rounded m-2">
+                        <p className="m-0 p-2">{obj.description}</p>
+                    </div>
                 </div>
             ))}
         </div>

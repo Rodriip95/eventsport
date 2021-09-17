@@ -8,7 +8,7 @@ export default function Contacto(){
 
     const [state, setState] = useState({
         nombre: "",
-        comentario: "",
+        description: "",
         email: ""
     })
 
@@ -32,7 +32,7 @@ export default function Contacto(){
               )
             setState({
                 nombre: "",
-                comentario: "",
+                description: "",
                 email: ""
             })
         })
@@ -55,7 +55,7 @@ export default function Contacto(){
                         <label for="exampleFormControlInput1" class="form-label">Ingresa tu mail</label>
                     </div>
                     <div class="form-floating">
-                        <textarea value={state.comentario} name="comentario" onChange={handlerChange} class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style={{height: "100px"}}></textarea>
+                        <textarea value={state.description} name="description" onChange={handlerChange} class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style={{height: "100px"}}></textarea>
                         <label for="floatingTextarea2">Comentario</label>
                     </div>
                     <div className="text-center mt-3">
