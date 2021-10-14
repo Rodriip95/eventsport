@@ -82,10 +82,10 @@ function TablaPosiciones({categoria}){
             let ganador = result.puntosA > result.puntosB ? result.equipoA : result.equipoB
             let perdedor = result.puntosA > result.puntosB ? result.equipoB : result.equipoA
             
-            let ganadorTT = result.puntosA > result.puntosB ? result.puntosA : result.puntosB
-            let perdedorTT = result.puntosA > result.puntosB ? result.puntosB : result.puntosA
+            let ganadorTT = result.puntosA > result.puntosB ? parseInt(result.puntosA) - parseInt(result.puntosB) : parseInt(result.puntosB) - parseInt(result.puntosA)
+            let perdedorTT = result.puntosA > result.puntosB ? parseInt(result.puntosB) - parseInt(result.puntosA) : parseInt(result.puntosA) - parseInt(result.puntosB)
             
-            updateTabla( ganador,perdedor, parseInt(ganadorTT), parseInt(perdedorTT))
+            updateTabla( ganador,perdedor, ganadorTT, perdedorTT)
         }
     }
 
